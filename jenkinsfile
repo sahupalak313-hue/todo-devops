@@ -1,0 +1,37 @@
+
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Building To-Do App...'
+
+                bat 'if not exist index.html exit /b 1'
+                bat 'if not exist style.css exit /b 1'
+                bat 'if not exist script.js exit /b 1'
+
+                echo 'All application files found!'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo 'Testing the application files...'
+
+                bat 'findstr /C:"My To-Do List" index.html'
+                bat 'findstr /C:"function addTask" script.js'
+                bat 'findstr /C:"background" style.css'
+
+                echo 'All tests passed!'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                echo 'Preparing To-Do App deployment...'
+                echo 'Deployment stage completed.'
+            }
+        }
+    }
+}
